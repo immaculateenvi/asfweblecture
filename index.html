@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Web Lecture ASF | ASF Ondo 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --oxblood: #8B2C3D;
+            --oxblood-dark: #631E2B;
+            --oxblood-soft: #F5EAEC;
+            --pure-white: #FFFFFF;
+            --black-deep: #0A0A0A;
+            --black-soft: #1F1F1F;
+            --border-light: #E5E0DB;
+            --text-muted: #4A4A4A;
+            --header-height: 80px;
+            --footer-height: 70px;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+            line-height: 1.6;
+            padding-top: var(--header-height);
+            padding-bottom: var(--footer-height);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- FLOATING CODE ANIMATIONS (subtle background) --- */
+        .floating-code-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .code-symbol {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: normal;
+            white-space: nowrap;
+            user-select: none;
+            animation: floatSymbolSlow linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+        }
+
+        @keyframes floatSymbolSlow {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.12;
+            }
+            85% {
+                opacity: 0.12;
+            }
+            100% {
+                transform: translateY(-20vh) translateX(20px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- HEADER (fixed) --- */
+        .header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            background: var(--pure-white);
+            border-bottom: 2px solid var(--oxblood);
+            padding: 0.75rem 1.5rem;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+        }
+
+        .header-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-placeholder {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: var(--oxblood-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1.5px solid var(--oxblood);
+            flex-shrink: 0;
+        }
+
+        .logo-placeholder img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .logo-placeholder span { font-size: 0.65rem; font-weight: 700; color: var(--oxblood); text-align: center; padding: 0.2rem; }
+
+        .title-section h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.2px; color: var(--black-deep); font-family: 'Georgia', serif; }
+        .title-section p { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; font-family: system-ui, sans-serif; }
+
+        .header-buttons { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+        .presenter-btn, .download-btn {
+            background: var(--oxblood);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            border: none;
+            cursor: pointer;
+            font-family: system-ui, sans-serif;
+            transition: background 0.2s;
+        }
+        .presenter-btn:hover, .download-btn:hover { background: var(--oxblood-dark); }
+
+        /* --- MAIN CONTENT --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 1rem;
+            position: relative;
+            z-index: 2;
+            background: transparent;
+        }
+
+        .section { margin-bottom: 2.4rem; }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--oxblood);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--oxblood);
+            padding-left: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .desc-text {
+            font-size: 0.95rem;
+            color: var(--black-soft);
+            font-family: system-ui, sans-serif;
+            margin-bottom: 0.8rem;
+        }
+
+        .row-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 0.8rem 0 1.2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .list-item { flex: 1; min-width: 160px; }
+        .list-item h3 { color: var(--oxblood); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; font-family: 'Georgia', serif; }
+        .list-item p { font-size: 0.85rem; color: #2C2C2C; font-family: system-ui, sans-serif; }
+
+        .badge-group { margin-top: 0.4rem; }
+        .lang-badge {
+            background: var(--oxblood-soft);
+            display: inline-block;
+            padding: 0.1rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--oxblood-dark);
+            margin-right: 0.3rem;
+            margin-bottom: 0.2rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        /* Practice Zone */
+        .practice-zone {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1.5rem 0 2rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .tab-bar {
+            display: flex;
+            background: #F7F5F2;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.85rem 0.5rem;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: #5A5A5A;
+            cursor: pointer;
+            font-family: system-ui, sans-serif;
+            transition: 0.15s;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            color: var(--oxblood);
+            border-bottom: 2px solid var(--oxblood);
+            background: white;
+        }
+
+        .tab-content { display: none; padding: 1.4rem; background: white; }
+        .tab-content.active-tab { display: block; }
+
+        .code-display {
+            background: #F5F2F0;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 280px;
+            overflow: auto;
+        }
+
+        textarea {
+            width: 100%;
+            background: #FEFCF8;
+            border: 1px solid var(--border-light);
+            color: #1E1E1E;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            padding: 1rem;
+            border-radius: 8px;
+            resize: vertical;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            min-height: 200px;
+            max-height: 280px;
+        }
+
+        .action-buttons { display: flex; gap: 0.7rem; margin-bottom: 0.4rem; }
+
+        .btn-run-code, .btn-reset-code {
+            border: none;
+            padding: 0.45rem 1.1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-family: system-ui, sans-serif;
+        }
+        .btn-run-code { background: var(--oxblood); color: white; }
+        .btn-run-code:hover { background: var(--oxblood-dark); }
+        .btn-reset-code { background: #E2DCD6; color: var(--black-deep); }
+        .btn-reset-code:hover { background: #d0c9c2; }
+
+        .preview-box {
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .preview-label {
+            background: #F2EFEB;
+            padding: 0.4rem 1rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #3D3D3D;
+            border-bottom: 1px solid var(--border-light);
+            font-family: system-ui, sans-serif;
+        }
+        .live-result {
+            padding: 1.2rem;
+            min-height: 180px;
+            background: white;
+        }
+
+        .grid-simple {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.4rem;
+            margin: 0.6rem 0 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .grid-item, .phase-item { flex: 1; min-width: 160px; }
+        .grid-item h4, .phase-item h4 { color: var(--oxblood); font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; font-family: 'Georgia', serif; }
+        .grid-item p, .phase-item p { font-size: 0.84rem; font-family: system-ui, sans-serif; }
+
+        .firststeps-block {
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 0.8rem 0;
+        }
+        .firststeps-block ol { margin-left: 1.3rem; margin-bottom: 0.8rem; }
+        .firststeps-block li { font-size: 0.9rem; margin-bottom: 0.4rem; font-family: system-ui, sans-serif; }
+
+        /* --- FOOTER --- */
+        .asf-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--pure-white);
+            border-top: 2px solid var(--oxblood);
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--oxblood-dark);
+            z-index: 1000;
+            letter-spacing: 0.3px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(1px);
+        }
+
+        @media (max-width: 680px) {
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .title-section h1 { font-size: 1rem; }
+            .section-title { font-size: 1.3rem; }
+            .tab-btn { font-size: 0.68rem; padding: 0.65rem 0.2rem; }
+            .logo-placeholder { width: 44px; height: 44px; }
+            .asf-footer { font-size: 0.7rem; padding: 0.6rem; }
+            body { padding-bottom: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="floating-code-bg" id="floatingBg"></div>
+
+<header class="header">
+    <div class="header-content">
+        <div class="logo-area">
+            <div class="logo-placeholder">
+                <img src="asflogo.jpg" alt="ASF Logo" onerror="this.onerror=null; this.parentElement.innerHTML='<span>ASF</span>';">
+            </div>
+            <div class="title-section">
+                <h1>Web Lecture ASF</h1>
+                <p>Victor Olaoluwa Adeoti | 2026 Chapter Conference · Anglican Students’ Fellowship (ASF) Ondo Chapter</p>
+            </div>
+        </div>
+        <div class="header-buttons">
+            <a href="https://wa.me/+2348142442012" class="presenter-btn" target="_blank" rel="noopener noreferrer">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Message Presenter
+            </a>
+            <button id="downloadPPTX" class="download-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download PPTX
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="section">
+        <div class="desc-text" style="font-size:1rem;">
+            Web development is the process of building and maintaining websites and web applications. It spans front-end (client-side), back-end (server, database), and full-stack development.
+        </div>
+    </div>
+
+    <div class="row-list">
+        <div class="list-item"><h3>Front-End</h3><p>Client-side: visual layout, interactions, forms. Translates designs into browser code.</p></div>
+        <div class="list-item"><h3>Back-End</h3><p>Server, application, database. Handles authentication, logic, security, data management.</p></div>
+        <div class="list-item"><h3>Full-Stack</h3><p>Proficient in both front-end and back-end. Builds complete applications from UI to database.</p></div>
+    </div>
+
+    <div class="row-list">
+        <div class="list-item"><h3>HTML</h3><p>Skeletal structure, semantic markup. No structure without HTML.</p><div class="badge-group"><span class="lang-badge">Tags</span><span class="lang-badge">Semantic</span></div></div>
+        <div class="list-item"><h3>CSS</h3><p>Presentation layer: colors, dimensions, positioning, responsiveness. Flexbox & Grid.</p><div class="badge-group"><span class="lang-badge">Styling</span><span class="lang-badge">Responsive</span></div></div>
+        <div class="list-item"><h3>JavaScript</h3><p>Interactive & behavioral layer. DOM manipulation, real-time validation, API fetching.</p><div class="badge-group"><span class="lang-badge">Dynamic</span><span class="lang-badge">Events</span></div></div>
+        <div class="list-item"><h3>Essential Tools</h3><p>VS Code, Browser DevTools (Inspect), mobile code editors available.</p></div>
+    </div>
+
+    <div class="practice-zone">
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="sample">📄 Sample Code</button>
+            <button class="tab-btn" data-tab="practice">✏️ Practice Editor</button>
+            <button class="tab-btn" data-tab="preview">👁️ Live Preview</button>
+        </div>
+        <div class="tab-content active-tab" id="sample">
+            <div class="code-display">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        .welcome-card {
+            background: #8B2C3D;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-family: Arial;
+        }
+        button {
+            background: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="welcome-card"&gt;
+        &lt;h2&gt;🌐 Welcome to Web Dev!&lt;/h2&gt;
+        &lt;p&gt;HTML gives structure, CSS adds style, JS makes it interactive.&lt;/p&gt;
+        &lt;button onclick="alert('Hello Web Developer! 🚀')"&gt;Click Me&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+            <p class="desc-text" style="font-size:0.75rem; margin-top:0.8rem;">🌟 Simple example: a styled card with a button that shows an alert.</p>
+        </div>
+        <div class="tab-content" id="practice">
+            <div class="code-editor-area">
+                <textarea id="codeEditor" rows="9" placeholder="Write your HTML/CSS/JS here..."></textarea>
+                <div class="action-buttons">
+                    <button id="runCodeBtn" class="btn-run-code">🎯 Run & Update</button>
+                    <button id="resetCodeBtn" class="btn-reset-code">⟳ Reset to Sample</button>
+                </div>
+                <p class="desc-text" style="font-size:0.7rem;">✏️ Edit the code, click Run, then switch to Live Preview tab.</p>
+            </div>
+        </div>
+        <div class="tab-content" id="preview">
+            <div class="preview-box">
+                <div class="preview-label">✨ LIVE OUTPUT</div>
+                <div id="livePreview" class="live-result">💡 Click "Run & Update" in Practice Editor to see your live webpage.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Web Development in Modern Economy</h2>
+        <div class="grid-simple">
+            <div class="grid-item"><h4>Commerce</h4><p>E‑commerce platforms, payment gateways — all web applications.</p></div>
+            <div class="grid-item"><h4>Education</h4><p>Online learning, digital libraries, student management portals.</p></div>
+            <div class="grid-item"><h4>Information & Media</h4><p>News, public health advisories, official communications via web channels.</p></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Roadmap to Competency</h2>
+        <div class="grid-simple" style="gap:1.2rem;">
+            <div class="phase-item"><h4>Phase 1: Static Structure & Style</h4><p>HTML5 + CSS3. Build a personal profile page.</p></div>
+            <div class="phase-item"><h4>Phase 2: Interactivity & Logic</h4><p>JavaScript, DOM, APIs. Build an interactive to-do app.</p></div>
+            <div class="phase-item"><h4>Phase 3: Full‑Stack Systems</h4><p>Backend + database. Build a full CRUD blog.</p></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">First Steps</h2>
+        <div class="firststeps-block">
+            <ol>
+                <li>Download Visual Studio Code (free).</li>
+                <li>Take a beginner HTML/CSS course (freeCodeCamp / YouTube).</li>
+                <li>Write your first index.html and open in a browser.</li>
+                <li>Practice daily — build small projects.</li>
+            </ol>
+            <div class="desc-text" style="margin-top: 0.5rem;">The barrier to entry has never been lower. Start today!</div>
+        </div>
+    </div>
+</main>
+
+<footer class="asf-footer">
+    <span>ASF … Arise | ASF … Shine | ASF … Restoring the Ancient Landmark</span>
+</footer>
+
+<script>
+    // ELEMENTARY SAMPLE CODE (friendly, beginner-friendly)
+    const ELEMENTARY_SAMPLE_CODE = `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .welcome-card {
+            background: #8B2C3D;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-family: Arial;
+        }
+        button {
+            background: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-card">
+        <h2>🌐 Welcome to Web Dev!</h2>
+        <p>HTML gives structure, CSS adds style, JS makes it interactive.</p>
+        <button onclick="alert('Hello Web Developer! 🚀')">Click Me</button>
+    </div>
+</body>
+</html>`;
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            tabs.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            contents.forEach(c => c.classList.remove('active-tab'));
+            const activePanel = document.getElementById(tabId);
+            if (activePanel) activePanel.classList.add('active-tab');
+        });
+    });
+
+    const codeEditor = document.getElementById('codeEditor');
+    const runBtn = document.getElementById('runCodeBtn');
+    const resetBtn = document.getElementById('resetCodeBtn');
+    const livePreviewDiv = document.getElementById('livePreview');
+
+    codeEditor.value = ELEMENTARY_SAMPLE_CODE;
+
+    function renderLiveOutput() {
+        const raw = codeEditor.value;
+        const previewContainer = livePreviewDiv;
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = raw;
+        const scripts = wrapper.querySelectorAll('script');
+        const htmlOnly = wrapper.cloneNode(true);
+        const scriptNodes = htmlOnly.querySelectorAll('script');
+        scriptNodes.forEach(s => s.remove());
+        previewContainer.innerHTML = '';
+        previewContainer.appendChild(htmlOnly);
+        scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+                newScript.src = oldScript.src;
+                document.body.appendChild(newScript);
+                document.body.removeChild(newScript);
+            } else {
+                newScript.textContent = oldScript.textContent;
+                previewContainer.appendChild(newScript);
+            }
+        });
+    }
+
+    function safeRun() {
+        try {
+            renderLiveOutput();
+        } catch (err) {
+            livePreviewDiv.innerHTML = `<div style="color:#8B2C3D; background:#FFF2EE; padding:0.6rem; border-radius:8px;">Error: ${err.message}. Fix your code.</div>`;
+        }
+    }
+
+    runBtn.addEventListener('click', () => {
+        const previewTab = document.querySelector('.tab-btn[data-tab="preview"]');
+        if (previewTab) previewTab.click();
+        safeRun();
+    });
+
+    resetBtn.addEventListener('click', () => {
+        codeEditor.value = ELEMENTARY_SAMPLE_CODE;
+        safeRun();
+        const previewTab = document.querySelector('.tab-btn[data-tab="preview"]');
+        if (previewTab) previewTab.click();
+    });
+
+    setTimeout(() => safeRun(), 50);
+
+    // ========== SIMPLE DOWNLOAD FOR YOUR EXISTING PPTX FILE ==========
+    // This downloads the actual "Web Lecture ASF.pptx" file that you already have.
+    // IMPORTANT: Place your file in the SAME folder as this HTML file.
+    const downloadBtn = document.getElementById('downloadPPTX');
+    downloadBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const link = document.createElement('a');
+        link.href = 'Web Lecture ASF.pptx';
+        link.download = 'Web Lecture ASF.pptx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+    // --- SUBTLE FLOATING BACKGROUND (reduced visibility) ---
+    const symbolsArray = ['<HTML>', '{CSS}', 'JS()', '</>', '=>', '{}', '()=>', 'let', 'const', '<div>', 'Flex', 'Grid', '🧩', '✨', '🔧', '🖥️', '🚀', '💻', '🎨', '⚡', '📱', '🌐'];
+    const floatingContainer = document.getElementById('floatingBg');
+    const SYMBOL_COUNT = 24;
+    for (let i = 0; i < SYMBOL_COUNT; i++) {
+        const symbol = document.createElement('div');
+        symbol.className = 'code-symbol';
+        const randomSymbol = symbolsArray[Math.floor(Math.random() * symbolsArray.length)];
+        symbol.textContent = randomSymbol;
+        const size = Math.random() * 0.9 + 0.6;
+        symbol.style.fontSize = `${size}rem`;
+        symbol.style.left = `${Math.random() * 100}%`;
+        symbol.style.animationDuration = `${Math.random() * 25 + 20}s`;
+        symbol.style.animationDelay = `${Math.random() * -30}s`;
+        const opacityVal = Math.random() * 0.08 + 0.04;
+        symbol.style.opacity = opacityVal;
+        symbol.style.color = `rgba(139, 44, 61, ${opacityVal})`;
+        floatingContainer.appendChild(symbol);
+    }
+    
+    function adjustBodyPadding() {
+        const headerElem = document.querySelector('.header');
+        const footerElem = document.querySelector('.asf-footer');
+        if (headerElem) document.body.style.paddingTop = `${headerElem.offsetHeight}px`;
+        if (footerElem) document.body.style.paddingBottom = `${footerElem.offsetHeight}px`;
+    }
+    window.addEventListener('load', adjustBodyPadding);
+    window.addEventListener('resize', adjustBodyPadding);
+    adjustBodyPadding();
+</script>
+</body>
+</html>
